@@ -2,7 +2,9 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FiCalendar, FiUser } from 'react-icons/fi';
+import Header from '../components/Header';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -28,15 +30,22 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
+  const [posts, setPosts] = useState(postsPagination.results);
+
+  async function handleLoadMore(): Promise<void> {
+    const raw = await fetch(postsPagination.next_page);
+    const response = await raw.json();
+
+    setPosts([...posts, ...response.results]);
+  }
+
   return (
     <main className={styles.mainContent}>
       <div className={commonStyles.container}>
-        <header>
-          <img src="/logo.svg" alt="logo" />
-        </header>
+        <Header />
         <section>
           <ul>
-            {postsPagination.results.map(post => (
+            {posts.map(post => (
               <li key={post.uid}>
                 <Link href={`/post/${post.uid}`}>
                   <a>
@@ -64,7 +73,9 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
         </section>
         {postsPagination.next_page && (
           <footer>
-            <button type="button">Carregar mais posts</button>
+            <button onClick={handleLoadMore} type="button">
+              Carregar mais posts
+            </button>
           </footer>
         )}
       </div>
