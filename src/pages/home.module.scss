@@ -1,1 +1,61 @@
-// TODO
+.mainContent {
+  header {
+    padding: 72px 0;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      transition: filter 0.2s ease-in-out;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
+
+      & + li {
+        margin-top: 3rem;
+      }
+
+      strong {
+        font-size: 1.75rem;
+      }
+
+      strong + p {
+        color: var(--gray-70);
+        margin: 8px 0 24px 0;
+      }
+
+      div {
+        color: var(--gray-80);
+        display: flex;
+        align-items: center;
+        line-height: 1rem;
+        time {
+          margin-right: 24px;
+        }
+
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  footer {
+    margin-top: 5.5rem;
+
+    button {
+      color: var(--pink-100);
+      font-size: 1.25rem;
+      font-weight: 600;
+      background-color: transparent;
+      border: none;
+      transition: filter 0.2s ease-in-out;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+  }
+}
